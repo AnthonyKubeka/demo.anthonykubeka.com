@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Normandy: a homelab run by AI agents | Anthony Kubeka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One server in my house, 12 Docker stacks deployed from git, and a crew of AI agents I direct from my phone. A live snapshot of the system Anthony Kubeka built.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b0e14">
+  <!-- LAUNCH: remove the next line when Anthony approves the content. See docs/PLAN.md task D-7. -->
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Normandy: a homelab run by AI agents">
+  <meta property="og:description" content="One server, 12 stacks deployed from git, and a crew of AI agents directed from a phone. Live snapshot.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://demo.anthonykubeka.com/">
+  <meta property="og:image" content="https://demo.anthonykubeka.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="stylesheet" href="design/normandy.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="top__brand" href="#main" aria-label="Normandy, top of page">
+      <span class="stripe" aria-hidden="true"></span>NORMANDY
+    </a>
+    <nav class="top__nav" aria-label="Sections">
+      <a href="#ship">Ship</a>
+      <a href="#stacks">Stacks</a>
+      <a href="#watch">Watch</a>
+      <a href="#crew">Crew</a>
+      <a href="#memory">Memory</a>
+      <a href="#research">Research</a>
+      <a href="#terminal">Terminal</a>
+    </nav>
+    <a class="top__out" href="https://anthonykubeka.com">anthonykubeka.com&nbsp;↗</a>
+  </header>
+
+  <main id="main">
+
+    <!-- ───────────── Hero ───────────── -->
+    <section class="hero">
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Live snapshot <span class="sep">·</span> <span data-rel="generated_at">loading</span></p>
+      <h1>One server in my house.<br>A crew of AI agents runs it.<br><span class="accent">I give the orders from my phone.</span></h1>
+      <p class="lede">
+        I'm Anthony Kubeka. I write event-driven backends for a living. Normandy is the system I built for myself:
+        <b data-bind="stacks.total_stacks">12</b> Docker stacks deployed from git, monitoring that pages me,
+        and agents that take a voice note and come back with a verified result.
+      </p>
+
+      <dl class="stats" aria-label="Current numbers">
+        <div class="stat"><dt>containers running</dt><dd data-bind="containers.running">–</dd></div>
+        <div class="stat"><dt>commits to the infra repo</dt><dd data-bind="repo.commits">–</dd></div>
+        <div class="stat"><dt>alert rules, <span data-bind="observability.alerts_firing">0</span> firing</dt><dd data-bind="observability.alert_rules">–</dd></div>
+        <div class="stat"><dt>agent skills</dt><dd data-bind="harness.skills_total">–</dd></div>
+        <div class="stat"><dt>runbooks</dt><dd data-bind="vault.runbooks">–</dd></div>
+        <div class="stat"><dt>agent tasks run</dt><dd data-bind="tasks.total">–</dd></div>
+      </dl>
+
+      <p class="hardware" id="hardware" aria-label="Hardware"></p>
+    </section>
+
+    <!-- ───────────── 01 Ship ───────────── -->
+    <section id="ship" class="section">
+      <header class="section__head">
+        <p class="num">01</p>
+        <h2>Every deploy starts with a commit</h2>
+      </header>
+      <div class="cols">
+        <div class="prose">
+          <p>I edit a file, commit and push. Forgejo (my own git server) hands the job to a runner on the same box. The runner works out which stacks the commit touched and redeploys those.</p>
+          <p>The whole server rebuilds from the repo, so nothing important lives only in my head.</p>
+          <ul class="facts">
+            <li><b data-bind="repo.commits">–</b> commits since <span data-month="repo.first_commit">2025</span></li>
+            <li><b data-bind="repo.commits_30d">–</b> in the last 30 days</li>
+            <li><b data-bind="repo.workflows">–</b> deploy workflows</li>
+            <li>Last commit <span data-rel="repo.last_commit">–</span></li>
+          </ul>
+          <div class="activity" id="activity" role="img" aria-label="Commits per week"></div>
+          <p class="caption activity__cap">Commits per week, last 26 weeks</p>
+        </div>
+
+        <div class="panel pipeline" id="pipeline">
+          <div class="pipeline__bar">
+            <label for="pipeline-stack">Stack</label>
+            <select id="pipeline-stack"></select>
+            <button class="btn" id="pipeline-run" type="button">Ship a change</button>
+          </div>
+          <ol class="pipeline__steps" id="pipeline-steps">
+            <li data-step="0"><span class="node"></span>push</li>
+            <li data-step="1"><span class="node"></span>Forgejo</li>
+            <li data-step="2"><span class="node"></span>runner</li>
+            <li data-step="3"><span class="node"></span>deploy</li>
+            <li data-step="4"><span class="node"></span>health</li>
+            <li data-step="5"><span class="node"></span>notify</li>
+          </ol>
+          <pre class="log" id="pipeline-log" aria-live="polite">$ <span class="dim">press the button</span></pre>
+          <p class="caption">Simulated run. The steps and the stack names are the real ones.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── 02 Stacks ───────────── -->
+    <section id="stacks" class="section">
+      <header class="section__head">
+        <p class="num">02</p>
+        <h2>What runs on it</h2>
+      </header>
+      <p class="prose prose--wide">
+        <b data-bind="containers.running">–</b> containers in <b data-bind="stacks.total_stacks">–</b> stacks.
+        DNS, ingress and git live apart from the things that can fall over quietly, so a bad media deploy can't take the house's DNS with it.
+      </p>
+      <div class="grid grid--stacks" id="stack-grid"></div>
+      <p class="caption" id="stack-private"></p>
+    </section>
+
+    <!-- ───────────── 03 Watch ───────────── -->
+    <section id="watch" class="section">
+      <header class="section__head">
+        <p class="num">03</p>
+        <h2>It watches itself, then tells me</h2>
+      </header>
+      <div class="grid grid--3">
+        <article class="card">
+          <h3>Metrics and alerts</h3>
+          <p>Prometheus scrapes <b data-bind="observability.targets_up">–</b> targets. <b data-bind="observability.alert_rules">–</b> alert rules page my phone through ntfy.</p>
+          <p class="status" id="alert-status"></p>
+        </article>
+        <article class="card">
+          <h3>Night Watch</h3>
+          <p>A plain script, on purpose. Every morning it sweeps failed units, deploys, backups and alerts, sends me 1 briefing, and opens an issue for anything red.</p>
+          <p class="status" id="nightwatch-status"></p>
+        </article>
+        <article class="card">
+          <h3>Backups</h3>
+          <p>Restic snapshots every night, and a restore test every month. A backup counts once I've restored from it.</p>
+          <p class="status" id="backup-status"></p>
+        </article>
+      </div>
+
+      <div class="panel day">
+        <div class="day__head">
+          <h3>A day on Normandy</h3>
+          <p class="caption"><b data-bind="timers.total">–</b> timers live in git. These are some of them. Times in UTC; I'm at UTC+2.</p>
+        </div>
+        <div class="day__track" id="day-track" role="img" aria-label="Scheduled jobs across 24 hours"></div>
+        <ul class="day__list" id="day-list"></ul>
+      </div>
+    </section>
+
+    <!-- ───────────── 04 Crew ───────────── -->
+    <section id="crew" class="section">
+      <header class="section__head">
+        <p class="num">04</p>
+        <h2>The crew</h2>
+      </header>
+      <p class="prose prose--wide">
+        I send a text or a voice note to a Telegram bot. An agent on Normandy does the work in its own workspace.
+        I get back a question with buttons, a verified result, or a line in the evening digest.
+      </p>
+
+      <div class="grid grid--3">
+        <article class="card card--rule">
+          <h3>The phone is the control channel</h3>
+          <p>Every step I take has to work from an iPhone. If a step needs a terminal, I log it as a defect.</p>
+        </article>
+        <article class="card card--rule">
+          <h3>Act, then report</h3>
+          <p>Agents act without asking, apart from a short ask-first list. Every change lands in a log line and in the digest.</p>
+        </article>
+        <article class="card card--rule">
+          <h3>Every account is crew</h3>
+          <p>An account is a subscription and its quota, from any vendor. Safety belongs to the task's workspace, so I can move a task from Claude to Codex halfway through.</p>
+        </article>
+      </div>
+
+      <div class="panel path" id="path">
+        <h3>How a request moves</h3>
+        <ol class="path__nodes" id="path-nodes"></ol>
+        <p class="path__detail" id="path-detail" aria-live="polite"></p>
+      </div>
+
+      <div class="cols cols--even">
+        <div class="panel">
+          <h3>What asks first</h3>
+          <ul class="ticks">
+            <li>Deleting data that can't be restored</li>
+            <li>Moving money</li>
+            <li>Messaging people</li>
+            <li>Posting in public</li>
+            <li>Exposing a secret</li>
+            <li>Changing an access path</li>
+          </ul>
+          <p class="caption">A deletion covered by a verified backup snapshot counts as reversible, so it goes ahead. An access-path change runs with an automatic revert timer.</p>
+        </div>
+        <div class="panel">
+          <h3>The score so far</h3>
+          <div class="score" id="task-score"></div>
+          <p>One dead login failed the same job 3 times in a row. The worker gets its token through a wrapper now.</p>
+          <p class="caption">Known limit, from my own guide: the ask-first guard reads a request once, at intake. Guards at the tool level are next.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── 05 Harness ───────────── -->
+    <section id="harness" class="section">
+      <header class="section__head">
+        <p class="num">05</p>
+        <h2>One instruction file, every agent</h2>
+      </header>
+      <div class="cols">
+        <div class="prose">
+          <p>Claude Code and Codex both work on this machine, and they have to follow the same rules. So there's 1 file. Each agent's config path is a symlink to it, and a pre-commit hook fails the commit if a link has turned into a regular file.</p>
+          <p>Two copies drift. One inode can't.</p>
+          <p>The same goes for rules. A rule that changes behaviour gets updated on every agent surface in the same session. A rule changed in 1 place is a bug.</p>
+          <p>Agents also read the web through local tools on this box: a private metasearch instance and a headless browser. I get the source text, and every agent gets the same input.</p>
+        </div>
+        <div class="panel">
+          <pre class="tree" id="surface-tree" aria-label="Instruction file and its symlinks"></pre>
+          <h3 class="mt"><span data-bind="harness.skills_total">–</span> skills</h3>
+          <p class="caption">A skill is a folder of instructions an agent loads when the task matches.</p>
+          <div id="skill-groups"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── 06 Memory ───────────── -->
+    <section id="memory" class="section">
+      <header class="section__head">
+        <p class="num">06</p>
+        <h2>Shared memory</h2>
+      </header>
+      <div class="cols">
+        <div class="prose">
+          <p>The agents share 1 Markdown vault. Raw sources go in and never change. The wiki pages belong to the agents: they write them, index them and log every operation.</p>
+          <p>It's close to Karpathy's LLM-wiki pattern: immutable sources, a wiki the model owns, and a schema file that says how.</p>
+          <p>Background agents never touch the live vault. Each one gets a job copy and an integrator merges it. A conflict becomes a question on my phone.</p>
+        </div>
+        <div class="panel">
+          <div class="flow" aria-label="How a source becomes a wiki page">
+            <div class="flow__box"><b>raw/</b><span>sources, read-only</span></div>
+            <span class="flow__arrow" aria-hidden="true">→</span>
+            <div class="flow__box flow__box--hot"><b>resources/</b><span>the agents' wiki</span></div>
+            <span class="flow__arrow" aria-hidden="true">→</span>
+            <div class="flow__box"><b>index + log</b><span>catalogue, audit trail</span></div>
+          </div>
+          <dl class="mini">
+            <div><dt>notes</dt><dd data-bind="vault.notes">–</dd></div>
+            <div><dt>wiki pages</dt><dd data-bind="vault.wiki_pages">–</dd></div>
+            <div><dt>logged operations</dt><dd data-bind="vault.log_entries">–</dd></div>
+            <div><dt>commits</dt><dd data-bind="vault.commits">–</dd></div>
+          </dl>
+          <p class="caption">The vault commits itself every 5 minutes. Last commit <span data-rel-timer="Notes vault commits itself">–</span>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── 07 Research ───────────── -->
+    <section id="research" class="section">
+      <header class="section__head">
+        <p class="num">07</p>
+        <h2>The research inbox</h2>
+      </header>
+      <p class="prose prose--wide">
+        I send a link, a screenshot or a question to a second bot. An agent researches it, checks it against my own notes, repos and server, and replies with numbered actions. Replying "do 2" starts a task.
+        Its tools are read-only, so that limit holds whatever the prompt says.
+      </p>
+      <div class="grid grid--research" id="research-grid"></div>
+      <p class="caption">Real notes, trimmed. <span data-bind="vault.research_notes">–</span> delivered so far.</p>
+    </section>
+
+    <!-- ───────────── 08 Rules ───────────── -->
+    <section id="rules" class="section">
+      <header class="section__head">
+        <p class="num">08</p>
+        <h2>Rules that came from incidents</h2>
+      </header>
+      <p class="prose prose--wide">Each of these is in my runbooks because something went wrong once.</p>
+      <ol class="rules">
+        <li>
+          <h3>Measure DNS from a public resolver</h3>
+          <p>I recorded a zone fact from inside the house. The LAN resolver answers for every subdomain, including ones that don't exist. The table stayed wrong for 2 weeks.</p>
+        </li>
+        <li>
+          <h3>A deny-all lockdown breaks every existing subscriber, quietly</h3>
+          <p>I locked down the notification server. The morning briefing job kept running green. Nobody received it.</p>
+        </li>
+        <li>
+          <h3>Caddyfile indentation is tabs</h3>
+          <p>Mixed tabs and spaces made whole site blocks vanish without an error. The service just stopped answering.</p>
+        </li>
+        <li>
+          <h3>Empty output is a result, so say it out loud</h3>
+          <p>The page extractor returns nothing for JavaScript sites, bot walls and dead links. An agent may fall back to another tool, and it has to tell me it did.</p>
+        </li>
+        <li>
+          <h3>A timeout has to actually kill</h3>
+          <p>A weekly agent job hung. The fix is a nested pair: the inner timeout kills the agent as its own user, the outer one backstops sudo.</p>
+        </li>
+        <li>
+          <h3>Keep tokens out of remote URLs</h3>
+          <p>One repo carried a stale token in its remote and started answering 403. Credentials come from a helper at call time now.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ───────────── 09 Terminal ───────────── -->
+    <section id="terminal" class="section">
+      <header class="section__head">
+        <p class="num">09</p>
+        <h2>Poke at it</h2>
+      </header>
+      <p class="prose prose--wide">A toy shell over the real snapshot. Try <code>help</code>.</p>
+      <div class="term" id="term">
+        <div class="term__bar"><span></span><span></span><span></span><b>guest@normandy</b></div>
+        <div class="term__out" id="term-out" aria-live="polite"></div>
+        <form class="term__in" id="term-form" autocomplete="off">
+          <label for="term-input">guest@normandy:~$</label>
+          <input id="term-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" aria-label="Command">
+        </form>
+        <div class="term__keys" id="term-keys" aria-label="Shortcuts"></div>
+      </div>
+    </section>
+
+    <!-- ───────────── Colophon ───────────── -->
+    <section id="colophon" class="section section--last">
+      <header class="section__head">
+        <p class="num">10</p>
+        <h2>How this page is made</h2>
+      </header>
+      <div class="cols cols--even">
+        <div class="prose">
+          <p>A timer on Normandy runs an export script. The script reads the live system and writes 1 JSON file through an allowlist: a name on the list gets printed, everything else gets counted.</p>
+          <p>A second script fails the build if a private term, an internal address or a key shape shows up anywhere in the output. Then it pushes, and the page redeploys.</p>
+          <p>The page is 1 HTML file, 2 stylesheets, 1 script and 3 font files. It loads nothing from anyone else.</p>
+          <p>The look comes from one shared stylesheet that my other pages use too. <a href="design/">See the design language</a>.</p>
+          <p><a href="data/snapshot.json">Read the snapshot</a> <span class="dim">(<span data-rel="generated_at">–</span>)</span></p>
+        </div>
+        <div class="panel cta">
+          <h3>This is how I build</h3>
+          <p>I'm a senior software engineer in Johannesburg. My day job is event-driven systems in .NET, Python and Azure. If your team needs someone who builds like this, I'd like to hear about it.</p>
+          <p class="cta__links">
+            <a class="btn" href="https://anthonykubeka.com">About me and my work</a>
+            <a class="btn btn--ghost" href="mailto:anthonykubeka@gmail.com">Email me</a>
+          </p>
+          <p class="caption"><a href="https://github.com/AnthonyKubeka">GitHub</a> <span class="sep">·</span> <a href="https://www.linkedin.com/in/anthonykubeka">LinkedIn</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><span class="stripe" aria-hidden="true"></span>Normandy <span class="sep">·</span> © <span id="year">2026</span> Anthony Kubeka</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
