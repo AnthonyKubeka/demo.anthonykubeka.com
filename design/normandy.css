@@ -1,0 +1,224 @@
+/* Normandy design language, version 1.
+   One file: fonts, tokens and a small kit of parts. No dependencies.
+   The rules are in docs/DESIGN.md. The live guide is design/index.html.
+   Copy this folder (normandy.css + fonts/) as one unit. Do not edit a copy. */
+
+/* ── fonts ─────────────────────────────────────────────────
+   Michroma: SIL Open Font License. NK57 Monospace: public domain (CC0). */
+@font-face {
+  font-family: "Michroma";
+  src: url("fonts/michroma-latin.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "NK57 Monospace";
+  src: url("fonts/nk57-monospace-regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "NK57 Monospace";
+  src: url("fonts/nk57-monospace-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* The condensed width, for a number in a box too narrow for the normal width. */
+@font-face {
+  font-family: "NK57 Monospace Condensed";
+  src: url("fonts/nk57-monospace-condensed-regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+/* ── tokens: dark is the default ─────────────────────────────
+   .nd-dark forces the dark set on one block of a light page. */
+:root, .nd-dark {
+  /* the knobs. Change these and every colour below follows. */
+  --hue: 4;        /* the one hot colour: selection, state, one action */
+  --steel: 203;    /* the cool colour of frames and tabs */
+  --cut: 14px;     /* size of the cut corner on a frame */
+
+  --bg: #0b0e14;
+  --bg-2: #10141d;
+  --panel: #0e131c;
+  --panel-2: #161c29;
+  --line: #222836;      /* dividers inside a frame */
+  --line-2: #323b52;    /* controls and inactive marks */
+  --frame: hsl(var(--steel) 40% 40%);        /* the hairline around a frame */
+  --frame-ink: #ffffff;                      /* text on a tab */
+  --text: #e8ebf2;
+  --muted: #9099ad;
+  --dim: #7a849b;
+  --accent: hsl(var(--hue) 100% 65%);
+  --accent-soft: hsl(var(--hue) 100% 65% / 0.14);
+  --accent-ink: #1a0705;                     /* text on the accent */
+  --ok: #5ee0c0;
+  --ok-soft: rgba(94, 224, 192, 0.13);
+  --warn: #f5c05a;
+  --warn-soft: rgba(245, 192, 90, 0.13);
+  --bad: #ff7a70;
+
+  --display: "Michroma", "Eurostile Extended", "Microgramma", ui-sans-serif, system-ui, sans-serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "NK57 Monospace", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --mono-narrow: "NK57 Monospace Condensed", "NK57 Monospace", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --gutter: clamp(16px, 4vw, 40px);
+}
+
+/* ── tokens: light ─────────────────────────────────────────── */
+:root[data-theme="light"], .nd-light {
+  --bg: #f7f5f0;
+  --bg-2: #efece5;
+  --panel: #ffffff;
+  --panel-2: #f3f0ea;
+  --line: #e2ded4;
+  --line-2: #cfcabd;
+  --frame: hsl(var(--steel) 36% 42%);
+  --frame-ink: #ffffff;
+  --text: #15171d;
+  --muted: #555b68;
+  --dim: #666c7a;
+  --accent: hsl(var(--hue) 66% 49%);
+  --accent-soft: hsl(var(--hue) 66% 49% / 0.1);
+  --accent-ink: #ffffff;
+  --ok: #0f7a5e;
+  --ok-soft: rgba(15, 122, 94, 0.12);
+  --warn: #8f6200;
+  --warn-soft: rgba(143, 98, 0, 0.12);
+  --bad: #b3261e;
+}
+
+/* ── kit ───────────────────────────────────────────────────── */
+
+/* Title: names and short titles only. 4 words or fewer. Never a sentence. */
+.nd-title {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+/* Label: small capitals in the monospace. Names a thing, never explains it. */
+.nd-label {
+  font: 400 12px/1.3 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Number: every figure that is data. */
+.nd-num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Frame: a hairline box with the 2 bottom corners cut at 45 degrees.
+   --under is the colour behind the frame. Set it if the frame is not on --bg. */
+.nd-frame {
+  --under: var(--bg);
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--frame);
+  border-radius: 0;
+}
+.nd-frame::before, .nd-frame::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  width: var(--cut); height: var(--cut);
+  pointer-events: none;
+}
+.nd-frame::before {
+  left: -1px;
+  background: linear-gradient(to top right, var(--under) calc(50% - 0.5px), var(--frame) calc(50% - 0.5px), var(--frame) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+.nd-frame::after {
+  right: -1px;
+  background: linear-gradient(to top left, var(--under) calc(50% - 0.5px), var(--frame) calc(50% - 0.5px), var(--frame) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+/* Tab: sits on the top edge of a frame. One slanted edge. */
+.nd-tab {
+  display: inline-block;
+  background: var(--frame);
+  color: var(--frame-ink);
+  font: 400 12px/1.3 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 30px 4px 10px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 0 100%);
+}
+
+/* Rows: a list with a right-aligned number column. One row can be selected. */
+.nd-rows { list-style: none; margin: 0; padding: 8px 0; }
+.nd-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: baseline;
+  padding: 7px 16px;
+  font: 400 15px/1.4 var(--sans);
+  color: var(--text);
+}
+.nd-row::before { content: "\25B8"; color: var(--frame); font-size: 0.8em; }
+.nd-row > :last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.nd-row.is-selected, .nd-selected {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.nd-row.is-selected::before { color: var(--accent); }
+
+/* Stat: one label and one number in a hairline box. */
+.nd-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 6px 14px;
+  border: 1px solid var(--frame);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--muted);
+}
+.nd-stat > :last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--text); }
+.nd-stat + .nd-stat { margin-top: 8px; }
+
+/* Button: square, with one cut corner. The filled one is the single main action. */
+.nd-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 700 13px/1 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 0;
+  border-radius: 0;
+  padding: 12px 18px;
+  cursor: pointer;
+  text-decoration: none;
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+}
+.nd-btn:hover { filter: brightness(1.08); }
+.nd-btn--ghost {
+  color: var(--text);
+  background: var(--panel-2);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  clip-path: none;
+}
+.nd-btn--ghost:hover { box-shadow: inset 0 0 0 1px var(--accent); filter: none; }
+
+/* Stripe: the one decorative mark. A short bar in the hot colour. */
+.nd-stripe {
+  display: inline-block;
+  width: 5px; height: 15px;
+  margin-right: 10px;
+  background: var(--accent);
+  vertical-align: -2px;
+}
+
+/* Status: a square lamp and a word. Colour is never the only signal. */
+.nd-status { font: 400 13px/1.5 var(--mono); color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.nd-status::before { content: ""; width: 8px; height: 8px; background: var(--dim); }
+.nd-status.is-ok { color: var(--ok); }
+.nd-status.is-ok::before { background: var(--ok); }
+.nd-status.is-bad { color: var(--bad); }
+.nd-status.is-bad::before { background: var(--bad); }
+.nd-status.is-warn { color: var(--warn); }
+.nd-status.is-warn::before { background: var(--warn); }

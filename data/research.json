@@ -1,0 +1,45 @@
+{
+  "_comment": "Curated by hand from the research inbox. Paraphrased and trimmed. Not auto-exported: a note reaches this file only after a human or an agent has read it for private details.",
+  "notes": [
+    {
+      "id": "R-4",
+      "asked": "Is the search engine image pinned in the repo?",
+      "verdict": "Corrected itself",
+      "tone": "ok",
+      "answer": "Yes, pinned by digest. Then it flagged its own earlier advice: the command it had given me compares a local image ID, which never equals a registry digest. It gave the right 2 commands and 3 likely causes if they still differ.",
+      "sources": 2
+    },
+    {
+      "id": "R-5",
+      "asked": "Help me pick an offsite backup target.",
+      "verdict": "Priced against my data",
+      "tone": "ok",
+      "answer": "Read the backup script first and found the offsite lane already built, waiting on 2 variables. Then priced 3 providers against the real 53 GB backup set. One costs about twice another at this size with no gain for a backup I rarely read.",
+      "sources": 12
+    },
+    {
+      "id": "R-10",
+      "asked": "Could I copy the stock trades that US Congress members disclose?",
+      "verdict": "No edge",
+      "tone": "warn",
+      "answer": "A weekend build from free official data. But across 17,859 disclosed trades, the median purchase trailed the S&P 500 by 5.36 points over a year, with or without the filing lag. Build it as a tracker if I want one. Leave my money out of it.",
+      "sources": 8
+    },
+    {
+      "id": "R-13",
+      "asked": "A viral diagram credits a famous researcher with a new agent stack. Real?",
+      "verdict": "Rejected",
+      "tone": "bad",
+      "answer": "The diagram is a remix. The original write-up describes a notes pattern I already run and never mentions the product in the picture. Nothing supports the 10x and 80% claims on it.",
+      "sources": 8
+    },
+    {
+      "id": "R-14",
+      "asked": "A post says: use the new model's free window to build a website.",
+      "verdict": "Overruled",
+      "tone": "warn",
+      "answer": "The offer is real, it said, and the website pitch is generic engagement bait. It pointed me at better uses of the window. I built the website anyway. You're on it.",
+      "sources": 5
+    }
+  ]
+}

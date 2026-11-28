@@ -1,0 +1,465 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-28T12:15:05Z",
+  "host": {
+    "name": "Normandy",
+    "cpu": "AMD Ryzen 7 5700X",
+    "threads": 16,
+    "ram_gb": 78,
+    "gpu": "RTX 3070",
+    "os": "Ubuntu 22.04.5 LTS",
+    "uptime_days": 9.8,
+    "disk_tb": 25.3
+  },
+  "repo": {
+    "commits": 803,
+    "first_commit": "2025-05-25",
+    "last_commit": "2026-11-27T10:07:23+00:00",
+    "commits_30d": 244,
+    "weekly": [
+      42,
+      11,
+      1,
+      6,
+      1,
+      33,
+      32,
+      16,
+      8,
+      27,
+      18,
+      14,
+      21,
+      37,
+      11,
+      18,
+      2,
+      14,
+      4,
+      1,
+      12,
+      29,
+      30,
+      126,
+      58,
+      15
+    ],
+    "workflows": 10
+  },
+  "stacks": {
+    "shown": [
+      {
+        "id": "core",
+        "label": "Core",
+        "role": "Ingress, DNS, git and CI",
+        "services": [
+          {
+            "name": "caddy",
+            "what": "Reverse proxy, automatic TLS"
+          },
+          {
+            "name": "adguard",
+            "what": "DNS for the house"
+          },
+          {
+            "name": "forgejo",
+            "what": "Self-hosted git and CI"
+          },
+          {
+            "name": "portainer",
+            "what": "Container dashboard"
+          }
+        ],
+        "unlisted": 1,
+        "total": 5
+      },
+      {
+        "id": "observability",
+        "label": "Observability",
+        "role": "Metrics, alerts and push notifications",
+        "services": [
+          {
+            "name": "prometheus",
+            "what": "Metrics"
+          },
+          {
+            "name": "alertmanager",
+            "what": "Alert routing"
+          },
+          {
+            "name": "grafana",
+            "what": "Dashboards"
+          },
+          {
+            "name": "node-exporter",
+            "what": "Host metrics"
+          },
+          {
+            "name": "cadvisor",
+            "what": "Container metrics"
+          },
+          {
+            "name": "blackbox-exporter",
+            "what": "Endpoint probes"
+          },
+          {
+            "name": "smartctl-exporter",
+            "what": "Disk health"
+          },
+          {
+            "name": "dcgm-exporter",
+            "what": "GPU metrics"
+          },
+          {
+            "name": "ntfy",
+            "what": "Push notifications to my phone"
+          },
+          {
+            "name": "homepage",
+            "what": "Service dashboard"
+          }
+        ],
+        "unlisted": 0,
+        "total": 10
+      },
+      {
+        "id": "home",
+        "label": "Home",
+        "role": "Home automation",
+        "services": [
+          {
+            "name": "homeassistant",
+            "what": "Home Assistant"
+          },
+          {
+            "name": "matter-server",
+            "what": "Matter devices"
+          }
+        ],
+        "unlisted": 0,
+        "total": 2
+      },
+      {
+        "id": "media",
+        "label": "Media",
+        "role": "Self-hosted media",
+        "services": [
+          {
+            "name": "plex",
+            "what": "Media server"
+          },
+          {
+            "name": "audiobookshelf",
+            "what": "Audiobooks"
+          }
+        ],
+        "unlisted": 0,
+        "total": 2
+      },
+      {
+        "id": "apps",
+        "label": "Apps",
+        "role": "Small self-hosted tools",
+        "services": [
+          {
+            "name": "koreader-sync",
+            "what": "E-reader progress sync"
+          },
+          {
+            "name": "filebrowser",
+            "what": "Files over the web"
+          },
+          {
+            "name": "searxng",
+            "what": "Private metasearch, used by the agents"
+          },
+          {
+            "name": "fpl_adviser",
+            "what": "Fantasy football adviser"
+          }
+        ],
+        "unlisted": 7,
+        "total": 11
+      },
+      {
+        "id": "pkms",
+        "label": "Knowledge",
+        "role": "Sync for the notes vault the agents share",
+        "services": [
+          {
+            "name": "couchdb",
+            "what": "Sync database"
+          },
+          {
+            "name": "livesync-bridge",
+            "what": "Notes sync bridge"
+          }
+        ],
+        "unlisted": 2,
+        "total": 4
+      },
+      {
+        "id": "finance",
+        "label": "Finance",
+        "role": "Receipts in, ledger out",
+        "services": [
+          {
+            "name": "receipts_db",
+            "what": "Finance database"
+          },
+          {
+            "name": "receipt_svc",
+            "what": "Receipt bot: photo in, ledger row out"
+          },
+          {
+            "name": "inventory_web",
+            "what": "Home inventory"
+          },
+          {
+            "name": "metabase",
+            "what": "Finance dashboards"
+          }
+        ],
+        "unlisted": 4,
+        "total": 8
+      },
+      {
+        "id": "vault",
+        "label": "Secrets",
+        "role": "Password manager",
+        "services": [
+          {
+            "name": "vaultwarden",
+            "what": "Password manager"
+          }
+        ],
+        "unlisted": 0,
+        "total": 1
+      },
+      {
+        "id": "access",
+        "label": "Access",
+        "role": "Phone path for secrets and logins",
+        "services": [
+          {
+            "name": "access",
+            "what": "Secrets and logins from the phone"
+          }
+        ],
+        "unlisted": 1,
+        "total": 2
+      },
+      {
+        "id": "inference",
+        "label": "Inference",
+        "role": "One gateway in front of model providers",
+        "services": [
+          {
+            "name": "inference_gateway",
+            "what": "Model gateway"
+          }
+        ],
+        "unlisted": 2,
+        "total": 3
+      }
+    ],
+    "total_stacks": 10,
+    "total_services": 48
+  },
+  "containers": {
+    "running": 48
+  },
+  "observability": {
+    "targets_up": 23,
+    "alert_rules": 32,
+    "alerts_firing": 1
+  },
+  "timers": {
+    "total": 50,
+    "timezone": "UTC",
+    "shown": [
+      {
+        "at": "03:30",
+        "every": null,
+        "label": "Stale agent workspaces cleaned",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": "03:45",
+        "every": null,
+        "label": "Password manager backup",
+        "ok": true,
+        "last_run": "2026-11-28T03:45:00Z"
+      },
+      {
+        "at": "04:15",
+        "every": null,
+        "label": "Receipts matched to bank rows",
+        "ok": true,
+        "last_run": "2026-11-28T04:15:00Z"
+      },
+      {
+        "at": "04:30",
+        "every": null,
+        "label": "Restic snapshot of data and secrets",
+        "ok": true,
+        "last_run": "2026-11-28T04:30:01Z"
+      },
+      {
+        "at": "04:30",
+        "every": null,
+        "label": "Morning report on Telegram: the plan for the day",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": "04:45",
+        "every": null,
+        "label": "Old images pruned",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": "05:30",
+        "every": null,
+        "label": "Night Watch sweep and morning briefing",
+        "ok": true,
+        "last_run": "2026-11-28T05:30:00Z"
+      },
+      {
+        "at": "16:30",
+        "every": null,
+        "label": "Evening digest on Telegram: what the agents did",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": null,
+        "every": "5 min",
+        "label": "Notes vault commits itself",
+        "ok": true,
+        "last_run": "2026-11-28T12:10:44Z"
+      },
+      {
+        "at": null,
+        "every": "5 min",
+        "label": "Home Assistant config commits itself",
+        "ok": true,
+        "last_run": "2026-11-28T12:10:44Z"
+      },
+      {
+        "at": null,
+        "every": "1 min",
+        "label": "Service metrics refreshed",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": null,
+        "every": "1 min",
+        "label": "Dead man's switch heartbeat",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": "Mon 06:00",
+        "every": null,
+        "label": "Weekly lint of the notes vault",
+        "ok": null,
+        "last_run": null
+      },
+      {
+        "at": "2nd, 06:45",
+        "every": null,
+        "label": "Monthly restore test",
+        "ok": null,
+        "last_run": null
+      }
+    ]
+  },
+  "backup": {
+    "last_run": "2026-11-28T04:30:01Z",
+    "ok": true,
+    "last_restore_test": "2026-11-01T06:19:02Z"
+  },
+  "harness": {
+    "commits": 91,
+    "since": "2026-06-15",
+    "skills_total": 59,
+    "skill_groups": [
+      {
+        "label": "Vault operations",
+        "skills": [
+          "onboard",
+          "ingest",
+          "ingest-text",
+          "query",
+          "journal",
+          "diary",
+          "lint",
+          "status-update",
+          "close-project"
+        ]
+      },
+      {
+        "label": "Integrations",
+        "skills": [
+          "gmail",
+          "gcal",
+          "github",
+          "trello",
+          "homeassistant",
+          "extract",
+          "teach-fin",
+          "personal-data"
+        ]
+      },
+      {
+        "label": "Ways of working",
+        "skills": [
+          "handoff",
+          "research",
+          "product",
+          "wizard",
+          "writing-for-agents",
+          "chief-of-staff",
+          "retro"
+        ]
+      }
+    ],
+    "skills_other": 35,
+    "surfaces": [
+      {
+        "path": "~/.claude/CLAUDE.md",
+        "reader": "Claude Code",
+        "linked": true
+      },
+      {
+        "path": "~/.codex/AGENTS.md",
+        "reader": "Codex",
+        "linked": true
+      },
+      {
+        "path": "~/AGENTS.md",
+        "reader": "Any other agent",
+        "linked": true
+      }
+    ]
+  },
+  "vault": {
+    "commits": 2192,
+    "since": "2026-06-11",
+    "notes": 1807,
+    "wiki_pages": 301,
+    "runbooks": 46,
+    "log_entries": 2485,
+    "open_handoffs": 13
+  },
+  "tasks": {
+    "succeeded": 68,
+    "failed": 15,
+    "cancelled": 4,
+    "total": 87
+  }
+}
